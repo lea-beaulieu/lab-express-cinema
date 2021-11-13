@@ -1,5 +1,7 @@
 // To insert in "seeds/movies.seed.js"
 
+const { Mongoose } = require("mongoose");
+
 const movies = [{
         title: "A Wrinkle in Time",
         director: "Ava DuVernay",
@@ -69,3 +71,31 @@ const movies = [{
 // Add here the script that will be run to actually seed the database (feel free to refer to the previous lesson)
 
 // ... your code here
+
+// bin/seeds.js
+
+const mongoose = require('mongoose');
+const Movie = require('../models/Movie.model.js');
+
+const MONGO_URI = process.env.MONGODB_URI || 'mongodb://localhost/lab-express-cinema';
+
+mongoose.connect(MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+  useCreateIndex: true
+});
+
+// PASTE HERE THE LIST OF BOOKS PROVIDED IN THIS GIST: https://gist.github.com/ironhack-edu/2816267a015d4870f95275cb873d33b6
+
+// const movies = [...]
+
+Movie.create(Movies)
+  .then(moviesFromDB => {
+    console.log(`Created ${moviesFromDB.length} movies`);
+
+    // Once created, close the DB connection
+    mongoose.connection.close();
+  })
+  .catch(err => console.log(`An error occurred while creating books from the DB: ${err}`));
+
